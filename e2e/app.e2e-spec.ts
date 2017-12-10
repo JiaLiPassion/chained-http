@@ -1,4 +1,5 @@
 import { AppPage } from './app.po';
+import { $ } from 'protractor';
 
 describe('chained-http App', () => {
   let page: AppPage;
@@ -7,8 +8,19 @@ describe('chained-http App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  const httpButton = $('.e2e-chained-http-calls');
+  const timeoutButton = $('.e2e-chained-timeouts');
+  const statusSpan = $('.e2e-current-state');
+
+  it('should wait for chained http calls', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    httpButton.click();
+    expect(statusSpan.getText()).toBe('afterSecond');
+  });
+
+  it('should wait for chained timeouts', () => {
+    page.navigateTo();
+    timeoutButton.click();
+    expect(statusSpan.getText()).toBe('afterSecond');
   });
 });
